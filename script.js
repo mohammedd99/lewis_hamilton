@@ -52,8 +52,9 @@ function init() {
 
     currentTarget = 0;
 
-    topTexture = createPlaceholderTexture("#0000ff");
-    bottomTexture = createPlaceholderTexture("#ff0000");
+    // Use theme-appropriate colors for placeholders
+    topTexture = createPlaceholderTexture("#ececec");
+    bottomTexture = createPlaceholderTexture("#ececec");
 
     topTextureSize = new THREE.Vector2(1, 1);
     bottomTextureSize = new THREE.Vector2(1, 1);
@@ -87,9 +88,25 @@ function init() {
         fragmentShader: displayFragmentShader,
     });
 
+    // Asset tracking
+    let assetsToLoad = 2;
+    let assetsLoaded = 0;
+
+    function checkAssets() {
+        assetsLoaded++;
+        if (assetsLoaded === assetsToLoad) {
+            setTimeout(() => {
+                const preloader = document.getElementById("preloader");
+                if (preloader) {
+                    preloader.classList.add("hidden");
+                }
+            }, 500);
+        }
+    }
+
     // Use #top and #bottom to satisfy the .includes("top") check in loadImage
-    loadImage("img/6.jpg#top", topTexture, topTextureSize);
-    loadImage("img/5.jpg#bottom", bottomTexture, bottomTextureSize);
+    loadImage("img/6.jpg#top", topTexture, topTextureSize, checkAssets);
+    loadImage("img/5.jpg#bottom", bottomTexture, bottomTextureSize, checkAssets);
 
     const planeGeometry = new THREE.PlaneGeometry(2, 2);
     const displayMesh = new THREE.Mesh(planeGeometry, displayMaterial);
@@ -125,7 +142,7 @@ function createPlaceholderTexture(color) {
     return texture;
 }
 
-function loadImage(url, targetTexture, textureSizeVector) {
+function loadImage(url, targetTexture, textureSizeVector, callback) {
     const img = new Image();
     img.crossOrigin = "Anonymous";
 
@@ -168,10 +185,13 @@ function loadImage(url, targetTexture, textureSizeVector) {
         } else {
             displayMaterial.uniforms.uBottomTexture.value = newTexture;
         }
+
+        if (callback) callback();
     };
 
     img.onerror = function (err) {
         console.error(`Error loading image ${url}:`, err);
+        if (callback) callback();
     };
 
     img.src = url;
