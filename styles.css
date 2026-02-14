@@ -130,3 +130,44 @@ canvas {
     align-items: flex-end;
     z-index: 2;
 }
+
+.helmet-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 2px solid #000;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.helmet-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+}
+
+.helmet-icon:hover {
+    opacity: 0.8;
+}
+
+.helmet-icon.active {
+    opacity: 1;
+}
+
+.helmet-icon img {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.helmet-separator {
+    width: 2px;
+    height: 30px;
+    background-color: #000;
+}

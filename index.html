@@ -38,7 +38,7 @@
         .sm-scope .sm-panel-itemWrap { position: relative; overflow: hidden; line-height: 1.2; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .sm-scope .sm-panel-item { position: relative; color: #000; font-weight: 600; font-size: 1.2rem; cursor: pointer; text-transform: uppercase; text-decoration: none; display: flex; justify-content: space-between; align-items: center; transition: color 0.3s; }
         .sm-scope .sm-panel-itemLabel { display: inline-block; will-change: transform; }
-        .sm-scope .sm-panel-item:hover { color: #cddb1b; }
+        .sm-scope .sm-panel-item:hover { color: #b9db1b; }
         .sm-scope .sm-rank { font-family: "DM Mono"; font-weight: 400; font-size: 1rem; color: #666; }
         .sm-scope .sm-trophy { font-size: 1.2rem; color: #000; }
 
@@ -58,11 +58,11 @@
 
     <!-- START STAGGERED MENU -->
     <div class="sm-scope" id="staggered-menu-root" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50;">
-        <div class="staggered-menu-wrapper relative w-full h-full" style="--sm-accent: #cddb1b;" data-position="right">
+        <div class="staggered-menu-wrapper relative w-full h-full" style="--sm-accent: #b9db1b;" data-position="right">
             
             <div class="sm-prelayers">
                 <div class="sm-prelayer" style="background: #292929;"></div>
-                <div class="sm-prelayer" style="background: #cddb1b;"></div>
+                <div class="sm-prelayer" style="background: #b9db1b;"></div>
             </div>
 
             <header class="staggered-menu-header">
@@ -215,8 +215,15 @@
         <canvas></canvas>
 
         <div class="hero-footer">
-            <p>With Helmet / No Helmet</p>
-            <p>Portfolio 2026</p>
+            <div class="helmet-toggle">
+                <div class="helmet-icon active" id="helmet-with" data-helmet="with">
+                    <img src="img/racing-helmet.svg" alt="With Helmet">
+                </div>
+                <div class="helmet-separator"></div>
+                <div class="helmet-icon" id="helmet-without" data-helmet="without">
+                    <img src="img/no-entry.svg" alt="No Helmet">
+                </div>
+            </div>
         </div>
     </section>
 

@@ -126,7 +126,49 @@ function init() {
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("resize", onWindowResize);
 
+    // Helmet toggle functionality
+    setupHelmetToggle();
+
     animate();
+}
+
+function setupHelmetToggle() {
+    const helmetWith = document.getElementById("helmet-with");
+    const helmetWithout = document.getElementById("helmet-without");
+    let isHelmetOn = true; // Default state: helmet is on (6.jpg on top, 5.jpg on bottom)
+
+    function swapImages() {
+        // Swap the textures
+        const tempTexture = displayMaterial.uniforms.uTopTexture.value;
+        const tempSize = displayMaterial.uniforms.uTopTextureSize.value.clone();
+
+        displayMaterial.uniforms.uTopTexture.value = displayMaterial.uniforms.uBottomTexture.value;
+        displayMaterial.uniforms.uTopTextureSize.value.copy(displayMaterial.uniforms.uBottomTextureSize.value);
+
+        displayMaterial.uniforms.uBottomTexture.value = tempTexture;
+        displayMaterial.uniforms.uBottomTextureSize.value.copy(tempSize);
+    }
+
+    function updateActiveState(activeElement, inactiveElement) {
+        activeElement.classList.add("active");
+        inactiveElement.classList.remove("active");
+    }
+
+    helmetWith.addEventListener("click", () => {
+        if (!isHelmetOn) {
+            swapImages();
+            isHelmetOn = true;
+            updateActiveState(helmetWith, helmetWithout);
+        }
+    });
+
+    helmetWithout.addEventListener("click", () => {
+        if (isHelmetOn) {
+            swapImages();
+            isHelmetOn = false;
+            updateActiveState(helmetWithout, helmetWith);
+        }
+    });
 }
 
 function createPlaceholderTexture(color) {
