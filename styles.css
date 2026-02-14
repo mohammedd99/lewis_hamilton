@@ -141,7 +141,7 @@ canvas {
 .helmet-toggle-label {
     font-size: 0.7rem;
     font-weight: 600;
-    color: #333;
+    color: #a0a0a0;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -185,32 +185,4 @@ canvas {
     width: 2px;
     height: 30px;
     background-color: #000;
-}
-
-/* On phone: blend switch-mode UI so it stays visible over the image */
-@media (max-width: 768px) {
-    .helmet-toggle-wrap {
-        mix-blend-mode: difference;
-    }
-
-    .helmet-toggle-wrap .helmet-toggle-label {
-        color: #fff;
-    }
-
-    .helmet-toggle-wrap .helmet-toggle {
-        border-color: #fff;
-        background-color: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        isolation: isolate;
-        transform: translateZ(0);
-    }
-
-    .helmet-toggle-wrap .helmet-separator {
-        background-color: #fff;
-    }
-
-    .helmet-toggle-wrap .helmet-icon img {
-        filter: brightness(0) invert(1);
-    }
 }
