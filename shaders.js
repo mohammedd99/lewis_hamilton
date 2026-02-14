@@ -56,6 +56,7 @@ uniform vec2 uResolution;
 uniform float uDpr;
 uniform vec2 uTopTextureSize;
 uniform vec2 uBottomTextureSize;
+uniform float uBlend;
 
 varying vec2 vUv;
 
@@ -87,7 +88,10 @@ void main() {
 
     float t = smoothstep(threshold, threshold + edgeWidth, fluid);
 
-    vec4 finalColor = mix(topColor, bottomColor, t);
+    // Apply crossfade blend
+    vec4 baseColor = mix(topColor, bottomColor, t);
+    vec4 targetColor = mix(bottomColor, topColor, t);
+    vec4 finalColor = mix(baseColor, targetColor, uBlend);
 
     gl_FragColor = finalColor;
 }

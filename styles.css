@@ -149,7 +149,7 @@ canvas {
     padding: 0.25rem 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0.5;
+    opacity: 0.2;
 }
 
 .helmet-icon:hover {

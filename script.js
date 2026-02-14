@@ -136,17 +136,38 @@ function setupHelmetToggle() {
     const helmetWith = document.getElementById("helmet-with");
     const helmetWithout = document.getElementById("helmet-without");
     let isHelmetOn = true; // Default state: helmet is on (6.jpg on top, 5.jpg on bottom)
+    let isAnimating = false;
+
+    // Add blend uniform for smooth transitions
+    if (!displayMaterial.uniforms.uBlend) {
+        displayMaterial.uniforms.uBlend = { value: 0.0 };
+    }
 
     function swapImages() {
-        // Swap the textures
-        const tempTexture = displayMaterial.uniforms.uTopTexture.value;
-        const tempSize = displayMaterial.uniforms.uTopTextureSize.value.clone();
+        if (isAnimating) return;
+        isAnimating = true;
 
-        displayMaterial.uniforms.uTopTexture.value = displayMaterial.uniforms.uBottomTexture.value;
-        displayMaterial.uniforms.uTopTextureSize.value.copy(displayMaterial.uniforms.uBottomTextureSize.value);
+        // Animate blend from 0 to 1
+        gsap.to(displayMaterial.uniforms.uBlend, {
+            value: 1.0,
+            duration: 0.6,
+            ease: "power2.inOut",
+            onComplete: () => {
+                // Actually swap the textures
+                const tempTexture = displayMaterial.uniforms.uTopTexture.value;
+                const tempSize = displayMaterial.uniforms.uTopTextureSize.value.clone();
 
-        displayMaterial.uniforms.uBottomTexture.value = tempTexture;
-        displayMaterial.uniforms.uBottomTextureSize.value.copy(tempSize);
+                displayMaterial.uniforms.uTopTexture.value = displayMaterial.uniforms.uBottomTexture.value;
+                displayMaterial.uniforms.uTopTextureSize.value.copy(displayMaterial.uniforms.uBottomTextureSize.value);
+
+                displayMaterial.uniforms.uBottomTexture.value = tempTexture;
+                displayMaterial.uniforms.uBottomTextureSize.value.copy(tempSize);
+
+                // Reset blend back to 0
+                displayMaterial.uniforms.uBlend.value = 0.0;
+                isAnimating = false;
+            }
+        });
     }
 
     function updateActiveState(activeElement, inactiveElement) {
@@ -155,7 +176,7 @@ function setupHelmetToggle() {
     }
 
     helmetWith.addEventListener("click", () => {
-        if (!isHelmetOn) {
+        if (!isHelmetOn && !isAnimating) {
             swapImages();
             isHelmetOn = true;
             updateActiveState(helmetWith, helmetWithout);
@@ -163,7 +184,7 @@ function setupHelmetToggle() {
     });
 
     helmetWithout.addEventListener("click", () => {
-        if (isHelmetOn) {
+        if (isHelmetOn && !isAnimating) {
             swapImages();
             isHelmetOn = false;
             updateActiveState(helmetWithout, helmetWith);
