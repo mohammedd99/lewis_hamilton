@@ -105,8 +105,8 @@ function init() {
     }
 
     // Use #top and #bottom to satisfy the .includes("top") check in loadImage
-    loadImage("img/6.jpg#top", topTexture, topTextureSize, checkAssets);
-    loadImage("img/5.jpg#bottom", bottomTexture, bottomTextureSize, checkAssets);
+    loadImage("img/1.jpg#top", topTexture, topTextureSize, checkAssets);
+    loadImage("img/2.jpg#bottom", bottomTexture, bottomTextureSize, checkAssets);
 
     const planeGeometry = new THREE.PlaneGeometry(2, 2);
     const displayMesh = new THREE.Mesh(planeGeometry, displayMaterial);
