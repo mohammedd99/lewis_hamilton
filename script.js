@@ -283,18 +283,31 @@ function onMouseMove(event) {
 
 function onTouchMove(event) {
     if (event.touches.length > 0) {
-        event.preventDefault();
-
-        const canvasRect = canvas.getBoundingClientRect();
         const touchX = event.touches[0].clientX;
         const touchY = event.touches[0].clientY;
 
+        // Allow native scroll when touching the menu panel (e.g. mobile menu scroll)
+        const menuPanel = document.getElementById("staggered-menu-panel");
+        if (menuPanel) {
+            const panelRect = menuPanel.getBoundingClientRect();
+            if (
+                touchX >= panelRect.left &&
+                touchX <= panelRect.right &&
+                touchY >= panelRect.top &&
+                touchY <= panelRect.bottom
+            ) {
+                return; // do not preventDefault — let the menu scroll
+            }
+        }
+
+        const canvasRect = canvas.getBoundingClientRect();
         if (
             touchX >= canvasRect.left &&
             touchX <= canvasRect.right &&
             touchY >= canvasRect.top &&
             touchY <= canvasRect.bottom
         ) {
+            event.preventDefault();
             prevMouse.copy(mouse);
 
             mouse.x = (touchX - canvasRect.left) / canvasRect.width;
